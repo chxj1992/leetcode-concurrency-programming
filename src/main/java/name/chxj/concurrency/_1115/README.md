@@ -9,5 +9,5 @@ https://leetcode-cn.com/problems/print-foobar-alternately/
 2. [Thread.yield](_2/FooBar.java)
 3. [lock.Condition](_3/FooBar.java)
 4. [CyclicBarrier](_4/FooBar.java)
-4. [Semaphore](_5/FooBar.java)
+5. [Semaphore](_5/FooBar.java)
 

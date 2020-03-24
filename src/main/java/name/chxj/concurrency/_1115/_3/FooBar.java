@@ -6,9 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 class FooBar {
     private int n;
     private volatile boolean fooTurn = true;
-    private ReentrantLock lock = new ReentrantLock();
-    private Condition fooWait = lock.newCondition();
-    private Condition barWait = lock.newCondition();
+    private volatile ReentrantLock lock = new ReentrantLock();
+    private volatile Condition fooWait = lock.newCondition();
+    private volatile Condition barWait = lock.newCondition();
 
     public FooBar(int n) {
         this.n = n;
