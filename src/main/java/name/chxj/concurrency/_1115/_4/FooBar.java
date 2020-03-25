@@ -5,8 +5,8 @@ import java.util.concurrent.CyclicBarrier;
 
 class FooBar {
     private int n;
-    private volatile boolean fooTurn = true;
-    private CyclicBarrier barrier = new CyclicBarrier(2);
+    private CyclicBarrier barrier1 = new CyclicBarrier(2);
+    private CyclicBarrier barrier2 = new CyclicBarrier(2);
 
     public FooBar(int n) {
         this.n = n;
@@ -14,22 +14,30 @@ class FooBar {
 
     public void foo(Runnable printFoo) throws InterruptedException {
         for (int i = 0; i < n; i++) {
-            printFoo.run();
-            fooTurn = false;
             try {
-                barrier.await();
+                barrier2.await();
+            } catch (BrokenBarrierException ignore) {}
+            printFoo.run();
+            try {
+                barrier1.await();
             } catch (BrokenBarrierException ignore) {}
         }
+        try {
+            barrier2.await();
+        } catch (BrokenBarrierException ignore) {}
     }
 
     public void bar(Runnable printBar) throws InterruptedException {
+        try {
+            barrier2.await();
+        } catch (BrokenBarrierException ignore) {}
         for (int i = 0; i < n; i++) {
-            while (fooTurn) {
-            }
-            printBar.run();
-            fooTurn = true;
             try {
-                barrier.await();
+                barrier1.await();
+            } catch (BrokenBarrierException ignore) {}
+            printBar.run();
+            try {
+                barrier2.await();
             } catch (BrokenBarrierException ignore) {}
         }
     }

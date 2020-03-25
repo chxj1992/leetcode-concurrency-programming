@@ -4,34 +4,36 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 class Foo {
-    private volatile int flag = 1;
-    private volatile CyclicBarrier barrier = new CyclicBarrier(1);
+    private volatile CyclicBarrier barrier2 = new CyclicBarrier(2);
+    private volatile CyclicBarrier barrier3 = new CyclicBarrier(2);
 
     public Foo() {
     }
 
     public void first(Runnable printFirst) throws InterruptedException {
         printFirst.run();
-        flag = 2;
+        try {
+            barrier2.await();
+        } catch (BrokenBarrierException ignore) {
+        }
     }
 
     public void second(Runnable printSecond) throws InterruptedException {
-        while (flag != 2) {
-            try {
-                barrier.await();
-            } catch (BrokenBarrierException ignore) {
-            }
+        try {
+            barrier2.await();
+        } catch (BrokenBarrierException ignore) {
         }
         printSecond.run();
-        flag = 3;
+        try {
+            barrier3.await();
+        } catch (BrokenBarrierException ignore) {
+        }
     }
 
     public void third(Runnable printThird) throws InterruptedException {
-        while (flag != 3) {
-            try {
-                barrier.await();
-            } catch (BrokenBarrierException ignore) {
-            }
+        try {
+            barrier3.await();
+        } catch (BrokenBarrierException ignore) {
         }
         printThird.run();
     }
