@@ -17,27 +17,27 @@ public class FizzBuzzTest {
 
     @Test
     public void test() throws InterruptedException {
-        FizzBuzz foo = new FizzBuzz(15);
+        FizzBuzz fb = new FizzBuzz(15);
 
         Thread A = new Thread(new Runnable() {
             @SneakyThrows
             @Override
             public void run() {
-                foo.fizz(() -> System.out.print("fizz"));
+                fb.fizz(() -> System.out.print("fizz"));
             }
         });
         Thread B = new Thread(new Runnable() {
             @SneakyThrows
             @Override
             public void run() {
-                foo.buzz(() -> System.out.print("buzz"));
+                fb.buzz(() -> System.out.print("buzz"));
             }
         });
         Thread C = new Thread(new Runnable() {
             @SneakyThrows
             @Override
             public void run() {
-                foo.fizzbuzz(() -> System.out.print("fizzbuzz"));
+                fb.fizzbuzz(() -> System.out.print("fizzbuzz"));
             }
         });
 
@@ -45,7 +45,7 @@ public class FizzBuzzTest {
             @SneakyThrows
             @Override
             public void run() {
-                foo.number(System.out::print);
+                fb.number(System.out::print);
             }
         });
 
